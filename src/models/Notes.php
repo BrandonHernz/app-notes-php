@@ -46,6 +46,11 @@ class Note extends Database{
     ]);
   }
 
+  /**
+   * Summary of get
+   * @param mixed $uuid
+   * @return Note
+   */
   public static function get($uuid){
     $db = new Database();
     $query = $db->connect()->prepare("SELECT * FROM notes WHERE uuid = :uuid");
@@ -57,6 +62,11 @@ class Note extends Database{
     return $note;
   }
 
+  /**
+   * Summary of createFromArray
+   * @param mixed $arr
+   * @return Note
+   */
   public static function createFromArray($arr):Note{
     $note = new Note($arr['title'], $arr['content']);
     $note->setUUID($arr['uuid']);
