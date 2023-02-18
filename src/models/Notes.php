@@ -3,6 +3,7 @@
 namespace Kneel\Notes\models;
 
 use Kneel\Notes\lib\Database;
+use PDO;
 
 class Note extends Database{
   private string $uuid;
@@ -17,6 +18,8 @@ class Note extends Database{
     $this->uuid = uniqid();
   }
 
+  // Functions
+
   /**
    * Summary of save
    * @return void
@@ -29,6 +32,39 @@ class Note extends Database{
       'content' => $this->content
     ]);
   }
+
+  /**
+   * Summary of update
+   * @return void
+   */
+  public function update(){
+    $query = $this->connect()->prepare("UPDATE notes SET title = :title, content = :content, updated = NOW() WHERE uuid = :uuid");
+    $query->execute([
+      'title' => $this->title,
+      'uuid' => $this->uuid,
+      'content' => $this->content
+    ]);
+  }
+
+  public static function get($uuid){
+    $db = new Database();
+    $query = $db->connect()->prepare("SELECT * FROM notes WHERE uuid = :uuid");
+    $query->execute([
+      'uuid' => $uuid
+    ]);
+
+    $note = Note::createFromArray($query->fetch(PDO::FETCH_ASSOC));
+    return $note;
+  }
+
+  public static function createFromArray($arr):Note{
+    $note = new Note($arr['title'], $arr['content']);
+    $note->setUUID($arr['uuid']);
+
+    return $note;
+  }
+
+
 
   // Getters and Setters
 
