@@ -1,0 +1,14 @@
+{
+  "name": "kneel/notes",
+  "autoload": {
+    "psr-4": {
+      "Kneel\\Notes\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Brandon Isahir Hernández"
+    }
+  ],
+  "require": {}
+}
